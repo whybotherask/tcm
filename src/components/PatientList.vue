@@ -71,18 +71,20 @@ import Moment from 'moment'
 
 
 export default {
+	beforeMount() {
+		Moment.locale('en', {
+			calendar : {
+				lastDay : '[Yesterday] LT',
+				sameDay : '[Today] LT',
+				nextDay : '[Tomorrow] LT',
+				lastWeek : '[last] ddd LT',
+				nextWeek : 'ddd [at] LT',
+				sameElse : 'MMM DD, YYYY'
+			}
+		})
+	},
 	created() {
 		this.$store.dispatch('loadPatientList');
-		// Moment.updateLocale('en', {
-		// 	calendar : {
-		// 		lastDay : '[Yesterday] LT',
-		// 		sameDay : '[Today] LT',
-		// 		nextDay : '[Tomorrow] LT',
-		// 		lastWeek : '[last] dddd LT',
-		// 		nextWeek : 'dddd LT',
-		// 		sameElse : 'MMM DD'
-		// 	}
-		// })
 	},
 	components: {
 		"default-header": Header,
@@ -133,7 +135,9 @@ export default {
 		},
 		formatNextVisit( value ) {
 			if (!value) return
-			return Moment(value).calendar()
+			var m = Moment(value)
+			m.locale('en')
+			return m.calendar()
 		}
 	}
 }

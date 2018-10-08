@@ -11,7 +11,7 @@
 	      </form>
 	    </a>
 	    <a class="ui item">
-				<button class="ui primary button">+ New Patient</button>
+				<button class="ui primary button" @click="addPatient">+ New Patient</button>
 	    </a>
 	    <div class="right menu">
 	      <a class="item">
@@ -33,6 +33,14 @@ export default {
 	computed: {
 		nameList(){
 			return this.$store.getters.getAutocompleteList
+		}
+	},
+	methods: {
+		addPatient(){
+			this.$router.push({ 
+        name: 'Add New Patient', 
+        params: {} 
+      })
 		}
 	},
 	create() {},

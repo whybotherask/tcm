@@ -57,7 +57,7 @@ var patients = [
 		id: "p3564669",
 		first_name: "Jessica T.",
 		last_name: "Noel",
-		sex: 'F',
+		sex: 'Female',
 		phone: "1234567890",
 		dob: $moment("1985-12-12"),
 		last_visit: $moment("2018-09-12 10:00"),
@@ -204,43 +204,47 @@ var patients = [
 var newPatients = [
 	{
 		id: 'p9064684',
-		first_name:'Nebyat',
-		last_name: 'Medhane',
-		dob: $moment('1984-08-13'),
-		sex:'F',
-		address:'3187 Boulevard, Ste-Geneviève, Chicoutimi, QC G7G 2S4',
-		phone: '4186122068',
-		email: 'nebyat.medhane@email.com',
-		physician: {
-			name: 'Becky W. Fetterman',
-			phone: '2505316060'
-		},
-		emergency_contact: {
-			name: 'Helen T. Navarro',
-			phone: '4162537798', 
-			relationship: 'Spouse'
-		},
-		consent: true,
+		personal_info: {
+			first_name:'Nebyat',
+			last_name: 'Medhane',
+			dob: $moment('1984-08-13'),
+			sex:'F',
+			address:'3187 Boulevard, Ste-Geneviève, Chicoutimi, QC G7G 2S4',
+			phone: '4186122068',
+			email: 'nebyat.medhane@email.com',
+			physician: {
+				name: 'Becky W. Fetterman',
+				phone: '2505316060'
+			},
+			emergency_contact: {
+				name: 'Helen T. Navarro',
+				phone: '4162537798', 
+				relationship: 'spouse'
+			},
+			consent: true,
+		}
 
 	}, {
 		id: 'p9064685',
-		first_name:'Hua Ma',
-		last_name: 'Li',
-		dob: $moment('1936-10-25'),
-		sex:'M',
-		address:'2562 Tchesinkut Lake Rd, Vanderhoof, BC V0J 3A0',
-		phone: '2505703572',
-		email: 'li@email.com',
-		physician: {
-			name: 'Dr. Oscar Rowe',
-			phone: '6044172572'
-		},
-		emergency_contact: {
-			name: 'Robert Fry',
-			phone: '4188684064', 
-			relationship: 'Brother'
-		},
-		consent: true,
+		personal_info:{
+			first_name:'Hua Ma',
+			last_name: 'Li',
+			dob: $moment('1936-10-25'),
+			sex:'M',
+			address:'2562 Tchesinkut Lake Rd, Vanderhoof, BC V0J 3A0',
+			phone: '2505703572',
+			email: 'li@email.com',
+			physician: {
+				name: 'Dr. Oscar Rowe',
+				phone: '6044172572'
+			},
+			emergency_contact: {
+				name: 'Robert Fry',
+				phone: '4188684064', 
+				relationship: 'sibling'
+			},
+			consent: true,
+		}
 	}
 
 

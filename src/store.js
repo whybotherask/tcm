@@ -115,6 +115,10 @@ export default new Vuex.Store({
       commit( 'setPatientName', name)
     },
 
+    updateNewPatient( { commit }, patient ) {
+      commit( 'setNewPatient', patient )
+    },
+
     cancelAppointment( { commit }, param ) {
       // var id = param.id
       commit( 'setNextAppointment', '' )
@@ -162,6 +166,11 @@ export default new Vuex.Store({
 
     setPatientLoadStatus( state, status ) {
       state.patientLoadStatus = status
+    },
+
+    setNewPatient( state, patient ) {
+      var index = state.newPatientList.findIndex( (item)=>{ return item.id === patient.id } )
+      if (index > -1) state.newPatientList.splice(index, 1, patient)
     },
 
     setNewPatientList( state, newPatientList ) {
@@ -234,6 +243,10 @@ export default new Vuex.Store({
 
     getPatientListLoadStatus( state ) {
       return state.patientListLoadStatus
+    },
+
+    getNewPatient: (state) => (id) => {
+      return state.newPatientList.find( patient => patient.id === id.toString() )
     },
 
     getPatient( state ) {

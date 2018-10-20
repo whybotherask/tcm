@@ -25,10 +25,10 @@
 				    <tr v-for="patient in newPatientsList" 
 				    		@click="displayNewPatient(patient.id)"
 				    		class="pointer tall-row">
-				      <td><h4>{{ patient.first_name }} {{ patient.last_name }}</h4></td>
-				      <td>{{ patient.sex | capitalize }}</td>
-				      <td>{{ patient.phone | formatPhone }}</td>
-				      <td>{{ patient.email }}</td>
+				      <td><h4>{{ patient.personal_info.first_name }} {{ patient.personal_info.last_name }}</h4></td>
+				      <td>{{ patient.personal_info.sex | capitalize }}</td>
+				      <td>{{ patient.personal_info.phone | formatPhone }}</td>
+				      <td>{{ patient.personal_info.email }}</td>
 				    </tr>
 				  </tbody>
 				</table>

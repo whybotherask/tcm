@@ -1,10 +1,10 @@
 
 <template>
 	<div>
-		<default-header :patient="patient"/>
+		<default-header/>
 
 		<div class="ui centered container margin-before-lg narrow">
-			<h1 class="ui header"> Andy Lin - First Visit </h1>
+			<h1 class="ui header"> {{ fullName }} - First Visit </h1>
 			<form ref="firstVisitForm" class="firstVisit">
 
 				<div class="ui divider margin-before-md"></div>
@@ -65,13 +65,10 @@ export default {
 	},
 	computed: {
 		patient() {
-			return {
-				id: "p1123221",
-				personal_info: {
-					first_name: "Andy",
-					last_name: "Lin"
-				}
-			}
+			return this.$store.getters.getNewPatient( this.$route.params.id )
+		},
+		fullName() {
+			return this.patient.personal_info.first_name + ' ' + this.patient.personal_info.last_name
 		}
 	},
 	methods: {

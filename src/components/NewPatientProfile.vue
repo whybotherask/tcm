@@ -1,10 +1,10 @@
 
 <template>
 	<div>
-		<default-header :patient="patient"/>
+		<default-header :patient="headerData"/>
 
 		<div class="ui centered container margin-before-lg narrow">
-			<h1 class="ui header"> Andy Lin </h1>
+			<h1 class="ui header"> {{ title }} </h1>
 			<form ref="firstVisitForm" class="ui form" autocomplete="off">
 
 	      <!-- Personal Info -->
@@ -20,14 +20,14 @@
 				        				ref="firstName" 
 				        				placeholder="First Name" 
 				        				autocomplete="off"
-				        				v-model="first_name" />
+				        				v-model="personal_info.first_name" />
 				      </div>
 				      <div class="eight wide field">
 				        <input type="search" 
 				        				ref="lastName" 
 				        				placeholder="Last Name" 
 				        				autocomplete="off"
-				        				v-model="last_name" />
+				        				v-model="personal_info.last_name" />
 				      </div>
 				    </div>
 				  </div>
@@ -38,7 +38,7 @@
 				    				ref="address" 
 				    				placeholder="Address" 
 				    				autocomplete="off"
-				    				v-model="address" />
+				    				v-model="personal_info.address" />
 				  </div>
 
 				  <div class="four wide field">
@@ -47,24 +47,26 @@
 				    				ref="dob" 
 				    				placeholder="MMM/DD/YYYY" 
 				    				autocomplete="off"
-				    				v-model="dob" />
+				    				v-model="personal_info.dob" />
 				  </div>
 
 				  <div class="four wide field">
 				    <label>Sex</label> 
 				    <div class="ui left attached split button" 
-			    				:class="{ 'primary': sex==='male', 'basic': sex!=='male' }"
+			    				:class="{ 'primary': personal_info.sex === 'M', 
+			    									'basic': personal_info.sex !== 'M' }"
 			    				tabindex="0"  
-			    				@click="splitButtonOnClick( $event, 'male' )"
-			    				@keypress.space="splitButtonOnKeyUp( $event, 'male' )"
-			    				@keypress.enter="splitButtonOnKeyUp( $event, 'male' )">Male</div>
+			    				@click="splitButtonOnClick( $event, 'M' )"
+			    				@keypress.space="splitButtonOnKeyUp( $event, 'M' )"
+			    				@keypress.enter="splitButtonOnKeyUp( $event, 'M' )">Male</div>
 
 						<div class="right attached ui split button" 
-								:class="{ 'primary': sex==='female', 'basic': sex!=='female' }"
+								:class="{ 'primary': personal_info.sex === 'F', 
+													'basic': personal_info.sex !== 'F' }"
 								tabindex="0" 
-								@click="splitButtonOnClick( $event, 'female' )"
-								@keypress.space="splitButtonOnKeyUp( $event, 'female' )"
-								@keypress.enter="splitButtonOnKeyUp( $event, 'female' )">Female</div>
+								@click="splitButtonOnClick( $event, 'F' )"
+								@keypress.space="splitButtonOnKeyUp( $event, 'F' )"
+								@keypress.enter="splitButtonOnKeyUp( $event, 'F' )">Female</div>
 				  </div>
 
 				  <div class="six wide field">
@@ -72,7 +74,7 @@
 				    <input type="search" 
 				    				ref="phone" 
 				    				autocomplete="off" 
-				    				v-model="phone" 
+				    				v-model="personal_info.phone" 
 				    				@keypress="formatPhone" />
 				  </div>
 
@@ -82,7 +84,7 @@
 				    				ref="email" 
 				    				placeholder=""
 				    				autocomplete="off"
-				    				v-model="email" />
+				    				v-model="personal_info.email" />
 				  </div>
 
 			  </div>
@@ -97,7 +99,7 @@
 				    				ref="physician_name" 
 				    				placeholder="First and last name" 
 				    				autocomplete="off"
-				    				v-model="physician.name" />
+				    				v-model="personal_info.physician.name" />
 				  </div>
 
 				  <div class="six wide field">
@@ -105,7 +107,7 @@
 				    <input type="search" 
 				    				ref="physician_phone" 
 				    				autocomplete="off"
-				    				v-model="physician.phone"
+				    				v-model="personal_info.physician.phone"
 				    				@keypress="formatPhysicianPhone" />
 				  </div>
 			  </div>
@@ -120,12 +122,13 @@
 				    				ref="emergency_contact_name" 
 				    				placeholder="First and last name" 
 				    				autocomplete="off"
-				    				v-model="emergency_contact.name" />
+				    				v-model="personal_info.emergency_contact.name" />
 				  </div>
 
 				  <div class="six wide field">
 				  	<label>Contact's Relation to Patient</label>
-				    <select class="ui search dropdown">
+				    <select class="ui search dropdown"
+				    				v-model="personal_info.emergency_contact.relationship">
 				    	<option value="">Select Relation</option>
 				    	<option value="parent">Parent</option>
 				    	<option value="sibling">Sibling</option>
@@ -143,7 +146,7 @@
 				    <input type="search" 
 				    				ref="emergency_contact_phone"
 				     				autocomplete="off"
-				     				v-model="emergency_contact.phone"
+				     				v-model="personal_info.emergency_contact.phone"
 				     				@keypress="formatContactPhone" />
 				  </div>
 
@@ -153,11 +156,11 @@
 		      <div class="ui header"> Consent Form </div>
 					<div class="ui divider"></div>
 					<div class="ui message padding-before-sm padding-after-sm"
-							:class="consent ? 'positive':'negative' ">
+							:class="personal_info.consent ? 'positive':'negative' ">
 						<div class="header"> Exemption of Liability</div>
-						<p>I, {{first_name}} {{last_name}}, hereby request and consent to recieve traditional Chinese medical treament, including acupuncture, herbal medicine, and tuina massage and other other related treatments from practitioners at the TSTCM teaching clinic. I acknowledge that the above treatments and all its ramifications have been fully explained to me. I also absolve TSTCM, all supervisors and the TSTCM clinic, if I experience from any unexpected side effects results of the treatment. I further agree to not commence lawsuits of any kind against all parties</p>
-						<div class="ui checkbox" @click="consentOnClick">
-				      <input type="checkbox" tabindex="0" class="hidden">
+						<p>I, {{ personal_info.first_name }} {{ personal_info.last_name }}, hereby request and consent to recieve traditional Chinese medical treament, including acupuncture, herbal medicine, and tuina massage and other other related treatments from practitioners at the TSTCM teaching clinic. I acknowledge that the above treatments and all its ramifications have been fully explained to me. I also absolve TSTCM, all supervisors and the TSTCM clinic, if I experience from any unexpected side effects results of the treatment. I further agree to not commence lawsuits of any kind against all parties</p>
+						<div class="ui checkbox">
+				      <input type="checkbox" tabindex="0" class="hidden" v-model="personal_info.consent">
 				      <label>I agree to the Exemption of Liability</label>
 				    </div>
 					</div>
@@ -191,79 +194,95 @@ export default {
 		"formatted-input" 	: FormattedInput, 
 	},
 	created() {
-		setTimeout(()=>window.scrollTo(0,0), 10)
+		setTimeout(() => window.scrollTo(0,0), 10)
+		if (this.$route.params.id !== 'new') {
+			var patient = this.$store.getters.getNewPatient( this.$route.params.id )
+			this.setDefault( patient )
+		}
 	},
 	mounted() {
 		$('select.dropdown').dropdown()
 		$('.ui.checkbox').checkbox()
-		if (this.$route.params.id !== 'new') {
-			this.first_name = 'Andy'
-			this.last_name = 'Lin'
-		}
 	},
 	data() {
 		return {
 			id: '',
-			first_name:'',
-			last_name: '',
-			dob:'',
-			sex:'',
-			address:'',
-			phone: '',
-			email: '',
-			physician: {
-				name: '',
-				phone: ''
-			},
-			emergency_contact: {
-				name: '',
-				phone: '', 
-				relationship: ''
-			},
-			consent: '',
-		}
+			personal_info: {
+				first_name:'',
+				last_name: '',
+				dob:'',
+				sex:'',
+				address:'',
+				phone: '',
+				email: '',
+				physician: {
+					name: '',
+					phone: ''
+				},
+				emergency_contact: {
+					name: '',
+					phone: '', 
+					relationship: ''
+				},
+				consent: false,
+			}, 
+		} // end return
 	},
 	computed: {
-		patient() {
+		title() {
+			if (! this.personal_info ) return 'New Patient'
+
+			if ( this.personal_info.first_name || this.personal_info.last_name ) {
+				return this.personal_info.first_name + ' ' + this.personal_info.last_name
+			}
+			 
+			return 'New Patient'
+		},
+		headerData() {
 			return {
-				id: "p1123221",
+				id: this.id,
 				personal_info: {
-					first_name: this.first_name,
-					last_name: this.last_name
+					first_name: this.personal_info.first_name,
+					last_name: this.personal_info.last_name
 				}
 			}
 		}
 	},
 	methods: {
-		saveForm( ){
+		saveForm(){
+
+			this.$store.dispatch( 'updateNewPatient', { id: this.id, personal_info: this.personal_info })
+
 			this.$router.push({ 
         name: 'New Patient Entry', 
-        params: {} 
+        params: {
+        	id: this.id
+        } 
       })
 		},
 		discardForm( ){
 			this.$router.back()
 		},
 		splitButtonOnClick( evt, param ){
-			this.sex = param
+			this.personal_info.sex = param
 		},
 		splitButtonOnKeyUp( evt, param ){
 			evt.preventDefault()
-			this.sex = param
+			this.personal_info.sex = param
 		},
 		formatPhone( ){
 			this.$nextTick(() => {
-				this.phone = this._formatPhoneNumber( this.phone )
+				this.personal_info.phone = this._formatPhoneNumber( this.personal_info.phone )
 			});
 		}, // end formatPhoneNumber()
 		formatContactPhone( ){
 			this.$nextTick(() => {
-				this.emergency_contact.phone = this._formatPhoneNumber( this.emergency_contact.phone )
+				this.personal_info.emergency_contact.phone = this._formatPhoneNumber( this.personal_info.emergency_contact.phone )
 			});
 		},
 		formatPhysicianPhone( ){
 			this.$nextTick(() => {
-				this.physician.phone = this._formatPhoneNumber( this.physician.phone )
+				this.personal_info.physician.phone = this._formatPhoneNumber( this.personal_info.physician.phone )
 			});
 		},
 		_formatPhoneNumber( val ){
@@ -273,7 +292,14 @@ export default {
 			return numbers
 		},
 		consentOnClick( ){				
-			this.consent = !this.consent
+			this.personal_info.consent = !this.personal_info.consent
+		},
+		setDefault( patient ){
+			this.id = patient.id
+			this.personal_info = { ...patient.personal_info }
+			this.formatPhone()
+			this.formatContactPhone()
+			this.formatPhysicianPhone()
 		}
 	},
 }

@@ -11,7 +11,7 @@
 	      </form>
 	    </a>
 	    <a class="ui item">
-				<button class="ui primary button" @click="addPatient">+ New Patient</button>
+				<button class="ui primary button" @click="newPatient">+ New Patient</button>
 	    </a>
 	    <div class="right menu">
 	      <a class="item">
@@ -36,9 +36,9 @@ export default {
 		}
 	},
 	methods: {
-		addPatient(){
+		newPatient(){
 			this.$router.push({ 
-        name: 'Add New Patient', 
+        name: 'New Patient Home', 
         params: {} 
       })
 		}

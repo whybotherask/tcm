@@ -29,6 +29,13 @@
 	      <formatted-input labelCopy="Treatment Principles" height="med"/>
 	      <formatted-input labelCopy="Treatment" height="med"/>
 	    </form>
+
+	    <div class="ui divider margin-before-lg"></div>
+	    <div class="content margin-after-xl">
+	      <div class="ui active large primary button right floated" @click="saveForm">Save Entry</div>
+	      <div class="ui basic link large basic button right floated" @click="$router.back()">Go Back</div>
+	    </div>
+
 		</div>
 
 		<my-footer/>
@@ -53,6 +60,9 @@ export default {
 
 		}
 	},
+	created() {
+		setTimeout( ()=>window.scrollTo(0,0), 10 )
+	},
 	computed: {
 		patient() {
 			return {
@@ -63,6 +73,14 @@ export default {
 				}
 			}
 		}
+	},
+	methods: {
+		saveForm(){
+
+		},
+		goBack(){
+			this.$router.back()
+		}
 	}
 }
 </script>
@@ -72,6 +90,7 @@ export default {
 .margin-before-lg {		margin-top: 8rem !important; 	}
 .margin-before-md {		margin-top: 4rem;			}
 .margin-before-sm {		margin-top: 2rem;			}
+.margin-after-xl {		margin-bottom: 16rem;	}
 .margin-after-sm {		margin-bottom: 2rem;	}
 
 .narrow {

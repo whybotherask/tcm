@@ -32,6 +32,9 @@ export default new Vuex.Store({
 
     searchResults: [],
     searchResultsLoadStatus: 0,
+
+    newPatientList: [],
+    newPatientListLoadStatus: 0,
   },
 
   /*
@@ -72,13 +75,21 @@ export default new Vuex.Store({
         })
     },   // end loadCafe()
 
+    loadNewPatientList({ commit }) {
+      commit( 'setNewPatientListLoadStatus', 0 )
+      setTimeout( function () {
+        var res = Data.getNewPatientList()
+        commit( 'setNewPatientList', res )
+        commit( 'setNewPatientListLoadStatus', 2 )
+      }, 1300)
+    },
+
     loadPatientList( { commit } ) {
       commit( 'setPatientListLoadStatus', 0 )
       setTimeout( function () {
         var res = Data.getPatientList()
         commit( 'setPatientList', res )
-        commit
-        ( 'setPatientListLoadStatus', 2 )
+        commit( 'setPatientListLoadStatus', 2 )
       }, 100)
     }, // end loadPatientList()
 
@@ -92,7 +103,6 @@ export default new Vuex.Store({
     }, // end loadPatient()
 
     loadSearchResults( { commit }, query ) {
-      console.log('load search results')
       commit( 'setSearchResultsLoadStatus', 0 )
       setTimeout( function () {
         var res = Data.getSearchResults( query.type, query.data )
@@ -154,6 +164,14 @@ export default new Vuex.Store({
       state.patientLoadStatus = status
     },
 
+    setNewPatientList( state, newPatientList ) {
+      state.newPatientList = newPatientList
+    },
+
+    setNewPatientListLoadStatus( state, status ) {
+      state.newPatientListLoadStatus = status
+    },
+
     setPatientName( state, name ) {
       state.patient.personal_info.name = name
     },
@@ -206,7 +224,7 @@ export default new Vuex.Store({
       return state.cafe
     },
 
-    getTestMessage( state ){
+    getTestMessage(){
       return 'Hi, Andy'
     },
 
@@ -226,6 +244,14 @@ export default new Vuex.Store({
       return state.patientLoadStatus
     },
 
+    getNewPatientList( state) {
+      return state.newPatientList
+    },
+
+    getNewPatientListLoadStatus( state ) {
+      return state.newPatientListLoadStatus
+    },
+
     getSearchResultsLoadStatus( state ) {
       return state.searchResultsLoadStatus
     },
@@ -234,7 +260,7 @@ export default new Vuex.Store({
       return state.searchResults
     },
 
-    getAutocompleteList( state ) {
+    getAutocompleteList() {
       return Data.getAutocompleteList()
     },
 

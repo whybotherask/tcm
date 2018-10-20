@@ -15,10 +15,16 @@ import Router from './routes.js'
 import moment from 'moment'
 
 Vue.config.productionTip = false
-// Object.defineProperty(Vue.prototype, '$moment', { value: moment }); // so we can use "this.$moment" in components
 
-window.s = Store
-window.m = moment
+// modify String so that we can insert
+String.prototype.insert = function (index, string) {
+  if ( 0 <= index && index <= this.length )
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  else
+    return this;
+};
+
+Vue.prototype.$scrollToTop = () => window.scrollTo(0,0)
 
 new Vue({
   render: h => h(App),

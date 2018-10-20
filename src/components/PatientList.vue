@@ -115,7 +115,7 @@ export default {
 			this.$router.push({ 
         name: 'Patient Profile', 
         params: {
-          id: `${id}` 
+          id: id 
         } 
       })
 		}
@@ -146,8 +146,8 @@ export default {
 <style scoped>
 
 .margin-before-lg {		margin-top: 8rem;			}
-.margin-before-sm {		margin-top: 2rem;			}
 .margin-before-md {		margin-top: 4rem;			}
+.margin-before-sm {		margin-top: 2rem;			}
 .margin-after-sm {		margin-bottom: 2rem;	}
 
 .font-size-lg {

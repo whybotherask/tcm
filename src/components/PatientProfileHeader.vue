@@ -3,7 +3,7 @@
 	<nav class="ui fixed inverted borderless square menu">
     <div class="ui container">
       <a class="header item" @click="$router.back()">
-      	<i class="arrow left icon"/> 
+        <i class="arrow left icon"/> 
       </a>
       <a v-show="last_scroll_position > 100" class="item">
         <h3>{{ title }}</h3>
@@ -30,6 +30,8 @@ export default {
   },
   methods: {
     updateTitle( scrollY ){
+      if ( !this.patient || !this.patient.personal_info ) return 
+        
       if( scrollY > 100) {
         this.title = `${this.patient.personal_info.first_name} ${this.patient.personal_info.last_name}`
       }
@@ -37,7 +39,7 @@ export default {
         this.title = ''
       }
     },
-    scrollHandler( evt ){
+    scrollHandler(){
       this.last_scroll_position = window.scrollY
 
       if (!this.ticking) {
@@ -53,7 +55,7 @@ export default {
     window.scrollTo(0, 0);
     window.addEventListener('scroll', this.scrollHandler)
   },
-  destroyed () {
+  destroyed() {
     window.removeEventListener('scroll', this.handleScroll)
   }
 }

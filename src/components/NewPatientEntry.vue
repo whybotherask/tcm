@@ -5,7 +5,7 @@
 
 		<div class="ui centered container margin-before-lg narrow">
 			<h1 class="ui header"> {{ fullName }} - First Visit </h1>
-			<form ref="firstVisitForm" class="firstVisit">
+			<form ref="firstVisitForm" class="ui firstVisit form">
 
 				<div class="ui divider margin-before-md"></div>
 	      <formatted-input labelCopy="Chief Complaint" height="med" focused="true"/>
@@ -28,12 +28,34 @@
 	      <formatted-input labelCopy="Syndrome Differentiation" height="med"/>
 	      <formatted-input labelCopy="Treatment Principles" height="med"/>
 	      <formatted-input labelCopy="Treatment" height="med"/>
+
+	      <!-- Next Visit Section -->
+      	<div class="field margin-before-sm">
+	      	<label class="labelstyle"> Next Visit </label>
+	      	<div class="two fields">
+	      		<div class="field">
+				      <flat-pickr 
+				      	v-model="nextvisit.date" 
+				      	:config="dateConfig" 
+				      	placeholder="Select date" 
+				      	name="date"/> 
+			      </div>
+		      	<div class="field">
+			        <flat-pickr 
+				        v-model="nextvisit.time" 
+				        :config="timeConfig" 
+				        placeholder="Select time" 
+				        name="time"/>
+			      </div>
+	        </div>
+	      </div>
 	    </form>
 
-	    <div class="ui divider margin-before-lg"></div>
+	    <!-- Submit buttons -->
+	    <div class="ui divider margin-before-md"></div>
 	    <div class="content margin-after-xl">
 	      <div class="ui active large primary button right floated" @click="saveForm">Save Entry</div>
-	      <div class="ui basic link large basic button right floated" @click="$router.back()">Go Back</div>
+	      <div class="ui basic link large basic button right floated" @click="goBack">Go Back</div>
 	    </div>
 
 		</div>
@@ -48,20 +70,46 @@ import Header 				from './PatientProfileHeader'
 import Footer 				from './Footer'
 import FormattedInput from './BaseFormattedInput'
 import Moment 				from 'moment'
+import flatPickr 			from 'vue-flatpickr-component'
 
 export default {
 	components: {
 		"default-header"		: Header,
 		"my-footer" 				: Footer,
 		"formatted-input" 	: FormattedInput, 
+		"flat-pickr"				: flatPickr,
 	},
 	data() {
 		return {
-
+			form: {
+				saveTime: "",
+				results_from_last_treatment: "",
+				changes_in_symptom: "",
+				symptom_differentiation: "",
+				treatment_principle: "",
+				treatment: "",
+			},
+			nextvisit: {
+				date: Moment().format('YYYY-MM-DD'),
+				time: "09:00 AM"
+			},
+			dateConfig: {
+				altInput: true,
+    		altFormat: "M j, Y",
+    		dateFormat: "Y-m-d",
+    		minDate: "today",
+    		defaultDate: Moment().format('YYYY-MM-DD')
+			},
+			timeConfig: {
+				enableTime: true,
+   			noCalendar: true,
+  			altInput: true,
+  			altFormat: "h:i K",
+    		dateFormat: "H:i",
+    		defaultHour: 9,
+    		defaultMinute: 0
+			}
 		}
-	},
-	created() {
-		setTimeout( ()=>window.scrollTo(0,0), 10 )
 	},
 	computed: {
 		patient() {
@@ -71,9 +119,34 @@ export default {
 			return this.patient.personal_info.first_name + ' ' + this.patient.personal_info.last_name
 		}
 	},
+	created() {
+		setTimeout( ()=>window.scrollTo(0,0), 10 )
+	},
 	methods: {
 		saveForm(){
-
+			// add the information the user's first visit
+			// remove the user from the new list
+			this.form.saveTime = Moment.now().toString()
+			this.$store.dispatch('saveNewPatient', this.getParsedForm() )
+			// delay to guarantee profile
+			setTimeout( function() {
+				this.$route.push({
+					name: 'Patient Profile',
+					params: {	id: this.$route.params.id }
+				})
+			}, 600)
+		},
+		getParsedForm() {
+			return {
+				id: this.$route.params.id
+				visit: JSON.parse( JSON.stringify(this.form) ),
+				next_appointment: moment( this.nextvisit.date + ' ' + this.nextvisit.time ).toString()
+			}
+		},
+		discardForm(){
+			for (var key in this.form) {
+				this.form[key] = ''
+			}
 		},
 		goBack(){
 			this.$router.back()
@@ -95,6 +168,12 @@ export default {
 }
 .high .textarea {
 	height: 500px;
+}
+.labelstyle {
+	font-size: 80% !important;
+	text-transform: uppercase !important;
+	color: grey !important;
+	font-weight: bold !important;
 }
 </style>
 

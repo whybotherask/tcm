@@ -1,7 +1,7 @@
 
 <template>
 	<div>
-	  <span class="label uppercase" 
+	  <span class="label labelstyle" 
 	  		@click="labelOnClick">
 	  	{{ labelCopy }}
 	  </span>
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style>
-.uppercase {
+.labelstyle {
 	font-size: 80%;
 	text-transform: uppercase;
 	color: grey;

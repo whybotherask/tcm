@@ -128,19 +128,21 @@ export default {
 			// remove the user from the new list
 			this.form.saveTime = Moment.now().toString()
 			this.$store.dispatch('saveNewPatient', this.getParsedForm() )
+			
 			// delay to guarantee profile
-			setTimeout( function() {
-				this.$route.push({
+			var that = this
+			setTimeout( ()=>{
+				that.$router.push({
 					name: 'Patient Profile',
-					params: {	id: this.$route.params.id }
+					params: {	id: that.$route.params.id }
 				})
 			}, 600)
 		},
 		getParsedForm() {
 			return {
-				id: this.$route.params.id
+				id: this.$route.params.id,
 				visit: JSON.parse( JSON.stringify(this.form) ),
-				next_appointment: moment( this.nextvisit.date + ' ' + this.nextvisit.time ).toString()
+				next_appointment: Moment( this.nextvisit.date + ' ' + this.nextvisit.time ).toString()
 			}
 		},
 		discardForm(){

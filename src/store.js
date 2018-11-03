@@ -7,6 +7,7 @@ const CafeAPI = "https://"
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Data from './assets/data.js'
+import _ from 'lodash'
 import moment from 'moment'
 
 window.a = Data
@@ -42,9 +43,31 @@ export default new Vuex.Store({
   */
   actions: {
 
-    createFollowup ( { commit }, data ) {
+    createFollowup( { commit }, data ) {
       commit( 'addVisit', data.visit )
       commit( 'setNextAppointment', data.next_appointment )
+    },
+
+    saveNewPatient( { commit, state }, data ) {
+      let id = data.id
+      let nextAppt = data.next_appointment
+      var visit = data.visit
+          visit.id = _.uniqueId('p')
+          visit.datetime = moment.now()
+          visit.practitioner = 'Royce Liu'
+          visit.visit_number = 1
+
+      // find the patient in question
+      var patient = _.find(state.newPatientList, (item)=>{ return item.id === id } )
+      if (! patient ) return 
+
+      // set the first visit and next_appointment info. the id and personal_info is already there
+      patient.next_appointment = nextAppt
+      patient.visits = [ visit ]
+      
+      // remove patient from new Patient array
+      commit( 'addToPatientList', patient )
+      commit( 'deleteFromPatientList', patient )
     },
 
     loadCafes( { commit } ){
@@ -112,7 +135,7 @@ export default new Vuex.Store({
     },  // end loadSearchResults()
 
     updatePatientName( { commit }, name ) {
-      commit( 'setPatientName', name)
+      commit( 'setPatientName', name )
     },
 
     updateNewPatient( { commit }, patient ) {
@@ -164,17 +187,27 @@ export default new Vuex.Store({
       state.patient = patient
     },
 
+    addToPatientList( state, patient ) {
+      var index = state.patientList.findIndex( (item)=>{ return item.id === patient.id } )
+      if ( index > -1 ) state.patientList[ index ] = patient
+      else state.patientList.push( patient )
+    },
+
     setPatientLoadStatus( state, status ) {
       state.patientLoadStatus = status
     },
 
     setNewPatient( state, patient ) {
-      var index = state.newPatientList.findIndex( (item)=>{ return item.id === patient.id } )
-      if (index > -1) state.newPatientList.splice(index, 1, patient)
+      var p = _.find( state.newPatientList, (item)=>{ return item.id === patient.id } )
+      p = patient
     },
 
     setNewPatientList( state, newPatientList ) {
       state.newPatientList = newPatientList
+    },
+
+    deleteFromPatientList( state, patient ) {
+      _.remove( state.patientList, (item)=>{ return item.id === patient.id } )
     },
 
     setNewPatientListLoadStatus( state, status ) {
@@ -196,7 +229,7 @@ export default new Vuex.Store({
     addVisit( state, visit ) {
       if (! state.patient) return ;
       if (! state.patient.visits ) state.patient.visits = []
-      visit.id = "p12355"
+      visit.id = _.uniqueId('p')
       visit.datetime = moment.now()
       visit.practitioner = 'Royce Liu'
       visit.visit_number = (state.patient.visits.length > 0)
@@ -257,7 +290,7 @@ export default new Vuex.Store({
       return state.patientLoadStatus
     },
 
-    getNewPatientList( state) {
+    getNewPatientList( state ) {
       return state.newPatientList
     },
 

@@ -8,26 +8,26 @@
 			<form ref="firstVisitForm" class="ui firstVisit form">
 
 				<div class="ui divider margin-before-md"></div>
-	      <formatted-input labelCopy="Chief Complaint" height="med" focused="true"/>
-	      <formatted-input labelCopy="History of Present Illness" height="med"/>
+	      <formatted-input labelCopy="Chief Complaint" height="med" focused="true" v-model="form.chief_complaint"/>
+	      <formatted-input labelCopy="History of Present Illness" height="med" v-model="form.history_of_present_illness"/>
 
 				<div class="ui divider"></div>
-	      <formatted-input labelCopy="General Information" height="med"/>
-	      <formatted-input labelCopy="Lifestyle" height="med"/>
-	      <formatted-input labelCopy="Past History and Family History" height="med"/>
-	      <formatted-input labelCopy="Inspection of General Appearance" class="high"/>
+	      <formatted-input labelCopy="General Information" height="med" v-model="form.general_information"/>
+	      <formatted-input labelCopy="Lifestyle" height="med" v-model="form.lifestyle"/>
+	      <formatted-input labelCopy="Past History and Family History" height="med" v-model="form.past_history_and_family_history"/>
+	      <formatted-input labelCopy="Inspection of General Appearance" class="high" v-model="form.inspection_of_general_Appearance"/>
 
 				<div class="ui divider"></div>
-	      <formatted-input labelCopy="Tongue" height="med"/>
-	      <formatted-input labelCopy="Listening & Smelling" height="med"/>
-	      <formatted-input labelCopy="Pulse" height="med"/>
+	      <formatted-input labelCopy="Tongue" height="med" v-model="form.tongue"/>
+	      <formatted-input labelCopy="Listening & Smelling" height="med" v-model="form.listening_and_smelling"/>
+	      <formatted-input labelCopy="Pulse" height="med" v-model="form.pulse"/>
 
 				<div class="ui divider"></div>
-	      <formatted-input labelCopy="Summary of Signs and Symptoms" height="med"/>
-	      <formatted-input labelCopy="Diagnosis" height="med"/>
-	      <formatted-input labelCopy="Syndrome Differentiation" height="med"/>
-	      <formatted-input labelCopy="Treatment Principles" height="med"/>
-	      <formatted-input labelCopy="Treatment" height="med"/>
+	      <formatted-input labelCopy="Summary of Signs and Symptoms" height="med" v-model="form.summary_of_signs_and_symptoms"/>
+	      <formatted-input labelCopy="Diagnosis" height="med" v-model="form.diagnosis"/>
+	      <formatted-input labelCopy="Syndrome Differentiation" height="med" v-model="form.syndrome_differentiation"/>
+	      <formatted-input labelCopy="Treatment Principles" height="med" v-model="form.treatment_principles"/>
+	      <formatted-input labelCopy="Treatment" height="med" v-model="form.treatment"/>
 
 	      <!-- Next Visit Section -->
       	<div class="field margin-before-sm">
@@ -83,11 +83,20 @@ export default {
 		return {
 			form: {
 				saveTime: "",
-				results_from_last_treatment: "",
-				changes_in_symptom: "",
-				symptom_differentiation: "",
-				treatment_principle: "",
-				treatment: "",
+				chief_complaint: "",
+				history_of_present_illness: "",
+				general_information: "",
+				lifestyle: "",
+				past_history_and_family_history: "",
+				inspection_of_general_Appearance: "",
+				tongue: "",
+				listening_and_smelling: "",
+				pulse: "",
+				summary_of_signs_and_symptoms: "",
+				diagnosis: "",
+				syndrome_differentiation: "",
+				treatment_principles: "",
+				treatment: ""
 			},
 			nextvisit: {
 				date: Moment().format('YYYY-MM-DD'),
@@ -130,11 +139,11 @@ export default {
 			this.$store.dispatch('saveNewPatient', this.getParsedForm() )
 			
 			// delay to guarantee profile
-			var that = this
+			var self = this
 			setTimeout( ()=>{
-				that.$router.push({
+				self.$router.push({
 					name: 'Patient Profile',
-					params: {	id: that.$route.params.id }
+					params: {	id: self.$route.params.id }
 				})
 			}, 600)
 		},

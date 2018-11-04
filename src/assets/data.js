@@ -312,6 +312,36 @@ export default {
 
 	getNewPatientList() {
 		return newPatients
+	},
+
+	convertNewPatient( target ) {
+		// patient = target // dont need to overwrite this. see getPatient()
+
+		// get a summarized version of target
+		var target_sum = { 
+			'id' 					: target.id,
+			'first_name' 	: target.personal_info.first_name,
+			'last_name' 	: target.personal_info.last_name,
+			'sex' 				: target.personal_info.sex,
+			'phone' 			: target.personal_info.phone,
+			'dob' 				: target.personal_info.dob,
+			'last_visit' 	: target.visits[0].saveTime,
+			'next_appointment': target.next_appointment
+		}
+
+		// upsert target_sum to patients list in new format
+		var index = patients.findIndex( (item)=>{ return item.id === target_sum.id } )
+    if ( index > -1 ) patients[ index ] = target_sum
+    else patients.push( target_sum )
+
+    // remove newPatient from newPatients
+    _.remove( newPatients, (item)=>{ return item.id === target.id } )
+
+    console.log( 'remove:', target_sum )
+    console.log( 'patients', patients )
+    console.log( 'new patients', newPatients )
+
+    return this
 	}
 
 }

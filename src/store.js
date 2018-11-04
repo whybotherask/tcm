@@ -48,10 +48,10 @@ export default new Vuex.Store({
       commit( 'setNextAppointment', data.next_appointment )
     },
 
-    saveNewPatient( { commit, state }, data ) {
-      let id = data.id
-      let nextAppt = data.next_appointment
-      var visit = data.visit
+    saveNewPatient( { commit, state }, param ) {
+      let id = param.id
+      let nextAppt = param.next_appointment
+      var visit = param.visit
           visit.id = _.uniqueId('p')
           visit.datetime = moment.now()
           visit.practitioner = 'Royce Liu'
@@ -65,9 +65,11 @@ export default new Vuex.Store({
       patient.next_appointment = nextAppt
       patient.visits = [ visit ]
       
+      // commit to the database; converts new patient to a full patient
+      Data.convertNewPatient( patient )
       // remove patient from new Patient array
       commit( 'addToPatientList', patient )
-      commit( 'deleteFromPatientList', patient )
+      commit( 'deleteFromPatientList', patient )      
     },
 
     loadCafes( { commit } ){

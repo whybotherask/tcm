@@ -133,11 +133,8 @@ export default {
 	},
 	methods: {
 		saveForm(){
-			// add the information the user's first visit
-			// remove the user from the new list
 			this.form.saveTime = Moment.now().toString()
 			this.$store.dispatch('saveNewPatient', this.getParsedForm() )
-			
 			// delay to guarantee profile
 			var self = this
 			setTimeout( ()=>{

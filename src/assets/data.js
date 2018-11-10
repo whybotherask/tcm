@@ -1,7 +1,7 @@
 
 import $moment from 'moment'
 
-const patient = {
+var patient = {
 
 	id:"p6595120",
 
@@ -247,21 +247,52 @@ var newPatients = [
 		}
 	}
 
+]	// end newPatients
 
 
-]
+function _upsertPatient( p ){
+
+		var target = _.cloneDeep( p )
+		// get a summarized version of target
+		var target_sum = { 
+			'id' 					: target.id,
+			'first_name' 	: target.personal_info.first_name,
+			'last_name' 	: target.personal_info.last_name,
+			'sex' 				: target.personal_info.sex,
+			'phone' 			: target.personal_info.phone,
+			'dob' 				: target.personal_info.dob,
+			'last_visit' 	: target.visits[0].saveTime,
+			'next_appointment': target.next_appointment
+		}
+
+		var index = patients.findIndex( (item)=>{ return item.id === target_sum.id } )
+		
+    if ( index < 0 ){
+    	patients.push( target_sum )
+    } else {
+    	patients[ index ] = target_sum
+    }
+		return this
+}
+
 
 export default {
 
-	getPatient(targetId) { 
+	p: patients,
+	n: newPatients,
+
+	getPatient( targetId ){ 
 		targetId = targetId.trim().toLowerCase()
 		var target = patients.find( (obj)=>obj.id===targetId )
-		var newPatient = Object.assign({}, patient)
+
+		console.log('target', targetId)
+
+		var newPatient = _.cloneDeep( patient )
 
 		if (typeof target == 'undefined'){
 			return newPatient
 		
-		} else {
+		} else {	// change the default information so we can fake the full profile
 			newPatient.id = target.id;
 			newPatient.personal_info.first_name = target.first_name
 			newPatient.personal_info.last_name = target.last_name
@@ -283,7 +314,7 @@ export default {
 		}
 		else if (param === 'phone') {
 			data = data.replace(/[+()-\s.]/g, '');	// replace any phone formatting (234)234 -> 234234
-			return patients.filter((patient)=>patient.phone.includes(data))
+			var p = patients.filter((patient)=>patient.phone.includes(data))
 		}
 		else if (param === 'date') {
 			data = $moment(data)
@@ -294,7 +325,7 @@ export default {
 	},
 
 	getPatientList() { 
-		return patients 
+		return _.cloneDeep(patients)
 	},
 
 	getAutocompleteList() { 
@@ -311,38 +342,20 @@ export default {
 	},
 
 	getNewPatientList() {
-		return newPatients
+		return _.cloneDeep(newPatients)
 	},
 
-	convertNewPatient( target ) {
-		// patient = target // dont need to overwrite this. see getPatient()
+	upsertPatient( param ) {
+		return _upsertPatient(param)
+	},
 
-		// get a summarized version of target
-		var target_sum = { 
-			'id' 					: target.id,
-			'first_name' 	: target.personal_info.first_name,
-			'last_name' 	: target.personal_info.last_name,
-			'sex' 				: target.personal_info.sex,
-			'phone' 			: target.personal_info.phone,
-			'dob' 				: target.personal_info.dob,
-			'last_visit' 	: target.visits[0].saveTime,
-			'next_appointment': target.next_appointment
-		}
-
-		// upsert target_sum to patients list in new format
-		var index = patients.findIndex( (item)=>{ return item.id === target_sum.id } )
-    if ( index > -1 ) patients[ index ] = target_sum
-    else patients.push( target_sum )
-
-    // remove newPatient from newPatients
-    _.remove( newPatients, (item)=>{ return item.id === target.id } )
-
-    console.log( 'remove:', target_sum )
-    console.log( 'patients', patients )
-    console.log( 'new patients', newPatients )
-
+	convertNewPatient( param ) {
+		var target = _.cloneDeep( param )		
+		_upsertPatient( target )
+    _.remove( newPatients, (item)=>{ return item.id === target.id } )	
     return this
-	}
+	},
+
 
 }
 

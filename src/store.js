@@ -58,7 +58,7 @@ export default new Vuex.Store({
           visit.visit_number = 1
 
       // find the patient in question
-      var patient = _.find(state.newPatientList, (item)=>{ return item.id === id } )
+      var patient = _.find( state.newPatientList, (item)=>{ return item.id === id } )
       if (! patient ) return 
 
       // set the first visit and next_appointment info. the id and personal_info is already there
@@ -190,6 +190,7 @@ export default new Vuex.Store({
     },
 
     addToPatientList( state, patient ) {
+      var patient = _.cloneDeep( patient )
       var index = state.patientList.findIndex( (item)=>{ return item.id === patient.id } )
       if ( index > -1 ) state.patientList[ index ] = patient
       else state.patientList.push( patient )

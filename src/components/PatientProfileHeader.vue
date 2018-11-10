@@ -2,7 +2,7 @@
 <template>
 	<nav class="ui fixed inverted borderless square menu">
     <div class="ui container">
-      <a class="header item" @click="$router.back()">
+      <a class="header item" @click="goBack">
         <i class="arrow left icon"/> 
       </a>
       <a v-show="last_scroll_position > 100" class="item">
@@ -50,6 +50,12 @@ export default {
         this.ticking = true
       }
     },
+    goBack(){
+      this.$router.push({
+        name: 'Patient List',
+        param: {}
+      })
+    }
   },
   created() {
     window.scrollTo(0, 0);

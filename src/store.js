@@ -142,6 +142,7 @@ export default new Vuex.Store({
 
     updateNewPatient( { commit }, patient ) {
       commit( 'setNewPatient', patient )
+      Data.updateNewPatient( patient )
     },
 
     cancelAppointment( { commit }, param ) {
@@ -202,11 +203,11 @@ export default new Vuex.Store({
 
     setNewPatient( state, patient ) {
       var p = _.find( state.newPatientList, (item)=>{ return item.id === patient.id } )
-      p = patient
+      if (p) Object.assign( p, patient ) // if the patient exists, overwrite with new data
     },
 
     setNewPatientList( state, newPatientList ) {
-      state.newPatientList = newPatientList
+      state.newPatientList = _.cloneDeep( newPatientList )
     },
 
     deleteFromPatientList( state, patient ) {

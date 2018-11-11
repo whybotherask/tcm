@@ -251,28 +251,26 @@ var newPatients = [
 
 
 function _upsertPatient( p ){
+	var target = _.cloneDeep( p )
+	var target_sum = { 
+		'id' 					: target.id,
+		'first_name' 	: target.personal_info.first_name,
+		'last_name' 	: target.personal_info.last_name,
+		'sex' 				: target.personal_info.sex,
+		'phone' 			: target.personal_info.phone,
+		'dob' 				: target.personal_info.dob,
+		'last_visit' 	: target.visits[0].saveTime,
+		'next_appointment': target.next_appointment
+	}
 
-		var target = _.cloneDeep( p )
-		// get a summarized version of target
-		var target_sum = { 
-			'id' 					: target.id,
-			'first_name' 	: target.personal_info.first_name,
-			'last_name' 	: target.personal_info.last_name,
-			'sex' 				: target.personal_info.sex,
-			'phone' 			: target.personal_info.phone,
-			'dob' 				: target.personal_info.dob,
-			'last_visit' 	: target.visits[0].saveTime,
-			'next_appointment': target.next_appointment
-		}
+	var index = patients.findIndex( (item)=>{ return item.id === target_sum.id } )
 
-		var index = patients.findIndex( (item)=>{ return item.id === target_sum.id } )
-		
-    if ( index < 0 ){
-    	patients.push( target_sum )
-    } else {
-    	patients[ index ] = target_sum
-    }
-		return this
+  if ( index < 0 ){
+  	patients.push( target_sum )
+  } else {
+  	patients[ index ] = target_sum
+  }
+	return this
 }
 
 
@@ -284,9 +282,6 @@ export default {
 	getPatient( targetId ){ 
 		targetId = targetId.trim().toLowerCase()
 		var target = patients.find( (obj)=>obj.id===targetId )
-
-		console.log('target', targetId)
-
 		var newPatient = _.cloneDeep( patient )
 
 		if (typeof target == 'undefined'){
@@ -303,6 +298,7 @@ export default {
 			return newPatient 
 		}
 	},
+
 	getSearchResults(param, data) {
 		param = param.trim().toLowerCase()
 		if (param === 'name') {
@@ -314,7 +310,7 @@ export default {
 		}
 		else if (param === 'phone') {
 			data = data.replace(/[+()-\s.]/g, '');	// replace any phone formatting (234)234 -> 234234
-			var p = patients.filter((patient)=>patient.phone.includes(data))
+			return patients.filter((patient)=>patient.phone.includes(data))
 		}
 		else if (param === 'date') {
 			data = $moment(data)
@@ -325,7 +321,7 @@ export default {
 	},
 
 	getPatientList() { 
-		return _.cloneDeep(patients)
+		return _.cloneDeep( patients )
 	},
 
 	getAutocompleteList() { 
@@ -342,11 +338,11 @@ export default {
 	},
 
 	getNewPatientList() {
-		return _.cloneDeep(newPatients)
+		return _.cloneDeep( newPatients )
 	},
 
 	upsertPatient( param ) {
-		return _upsertPatient(param)
+		return _upsertPatient( param )
 	},
 
 	convertNewPatient( param ) {
@@ -355,6 +351,12 @@ export default {
     _.remove( newPatients, (item)=>{ return item.id === target.id } )	
     return this
 	},
+
+	updateNewPatient( target ){
+		var p = _.find( newPatients, (item)=> { return item.id === target.id } )
+		if (p) Object.assign( p, patient )
+		return this;
+	}
 
 
 }

@@ -2,18 +2,21 @@
 <template>
 	<div class="items">
 		<div v-for="visit in visitList">
-			<entry :visit="visit"/>	
+			<entry v-if="!visit.is_first_visit" :visit="visit"/>				
+			<firstEntry v-if="visit.is_first_visit" :visit="visit"/>	
 		</div>
 	</div>
 </template>
 
 <script> 
 
-import entry from './PatientProfileVisitListEntry.vue';
+import entry from './PatientProfileVisitListEntry.vue'
+import firstEntry from './PatientProfileVisitListFirstVisit.vue'
 
 export default {
 	components: {
-		entry
+		entry,
+		firstEntry,
 	},
 	computed: {
 		visitList() {
@@ -24,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
 
 

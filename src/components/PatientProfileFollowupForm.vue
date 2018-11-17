@@ -18,15 +18,20 @@
 	    <form ref="followupForm" 
 	    		 v-show="collapsed==='expanded'"
 	    		 class="ui description scrollable form">
-	      <formatted-input labelCopy="Results From Last Treatment" v-model="form.results_from_last_treatment"/>
+	      <formatted-input labelCopy="Chief Complaint" v-model="form.chief_complaint"/>
 				<!-- <div class="ui divider"></div> -->
-	      <formatted-input labelCopy="Changes In Symptom" v-model="form.changes_in_symptom"/>
+	      <formatted-input labelCopy="Symptom and Signs" v-model="form.symptoms_and_signs"/>
+				<!-- <div class="ui divider"></div> -->
+	      <formatted-input labelCopy="Pulse and Tongue" v-model="form.pulse_and_tongue"/>
+				<!-- <div class="ui divider"></div> -->
+	      <formatted-input labelCopy="Diagnosis" v-model="form.diagnosis"/>
 				<!-- <div class="ui divider"></div> -->
 	      <formatted-input labelCopy="Symptom Differentiation" v-model="form.symptom_differentiation"/>
 				<!-- <div class="ui divider"></div> -->
-	      <formatted-input labelCopy="Treatment Principle" v-model="form.treatment_principle"/>
-				<!-- <div class="ui divider"></div> -->
 	      <formatted-input labelCopy="Treatment" v-model="form.treatment"/>
+	      <!-- <div class="ui divider"></div> -->
+	      <formatted-input labelCopy="Patient Feedback" v-model="form.patient_feedback"/>
+
 
 	      <div class="ui dividing header"></div>
       	<div class="field">
@@ -81,11 +86,13 @@ export default {
 			collapsed: "expanded",
 			form: {
 				saveTime: "",
-				results_from_last_treatment: "",
-				changes_in_symptom: "",
+				chief_complaint: "",
+				symptoms_and_signs: "",
+				pulse_and_tongue: "",
+				diagnosis: "",
 				symptom_differentiation: "",
-				treatment_principle: "",
 				treatment: "",
+				patient_feedback: "",
 			},
 			nextvisit: {
 				date: moment().format('YYYY-MM-DD'),

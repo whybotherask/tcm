@@ -9,20 +9,26 @@
 				<p class="margin-sm">Visit #{{ visit.visit_number }}</p>
 			</div>
 			<div class="eight wide column">
-				<span class="label uppercase">Results From Last treatment</span>
-				<div class="font-lg margin-bottom-sm" v-html="visit.results_from_last_treatment"/>
- 
-				<span class="label uppercase">Changes In Symptom</span>
-				<div class="font-lg margin-bottom-sm" v-html="visit.changes_in_symptom"/>
+				<span class="label uppercase">Chief Complaint</span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.chief_complaint"/>
 
-				<span class="label uppercase">Syndrome Differentiation</span>
+				<span class="label uppercase">Symptoms and Signs</span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.symptoms_and_signs"/>
+
+				<span class="label uppercase">Pulse and Tongue</span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.pulse_and_tongue"/>
+
+				<span class="label uppercase">Diagnosis</span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.diagnosis"/>
+
+				<span class="label uppercase">Symptom Differentiation</span>
 				<div class="font-lg margin-bottom-sm" v-html="visit.symptom_differentiation"/>
-
-				<span class="label uppercase">Treatment Principle</span>
-				<div class="font-lg margin-bottom-sm" v-html="visit.treatment_principle"/>
 
 				<span class="label uppercase">Treatment</span>
 				<div class="font-lg margin-bottom-sm" v-html="visit.treatment"/>
+
+				<span class="label uppercase">Patient Feedback</span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.patient_feedback"/>
 			</div>
 		</div>
 	</div>
@@ -54,7 +60,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .label {
 	font-size: .8rem;
 	font-weight: bold;
@@ -65,18 +71,15 @@ export default {
 }
 .indent-list {
 	list-style-position: outside;
-/*	-webkit-padding-start: 18px;
-	-webkit-margin-before: .2rem !important;
-*/}
+	/*-webkit-padding-start: 18px;*/
+}
 .font-lg {
 	font-size: 1.2rem;
 	line-height: 1.4;
 }
-ul{
-	-webkit-margin-before: .2rem !important;
-}
 .margin-bottom-sm {
 	margin-bottom: 2rem;
+	margin-block-start: 0 !important;
 }
 .margin-sm {
 	-webkit-margin-before: 0;
@@ -84,6 +87,10 @@ ul{
 	margin-top: 0.2rem;
 	margin-bottom: 0.2rem;
 }
+ul{
+	margin-block-start: 0 !important;
+}
+
 </style>
 
 

@@ -14,22 +14,23 @@
 				<div class="ui divider"></div>
 	      <formatted-input labelCopy="General Information" height="med" v-model="form.general_information"/>
 	      <formatted-input labelCopy="Lifestyle" height="med" v-model="form.lifestyle"/>
-	      <formatted-input labelCopy="Past History and Family History" height="med" v-model="form.past_history_and_family_history"/>
-	      <formatted-input labelCopy="Inspection of General Appearance" class="high" v-model="form.inspection_of_general_Appearance"/>
+	      <formatted-input labelCopy="Past History and Family History" height="med" v-model="form.past_history"/>
+	      <formatted-input labelCopy="General Appearance" class="high" v-model="form.general_appearance"/>
 
 				<div class="ui divider"></div>
 	      <formatted-input labelCopy="Tongue" height="med" v-model="form.tongue"/>
-	      <formatted-input labelCopy="Listening & Smelling" height="med" v-model="form.listening_and_smelling"/>
-	      <formatted-input labelCopy="Pulse" height="med" v-model="form.pulse"/>
+	      <formatted-input labelCopy="Listening & Smelling" height="med" v-model="form.listening_and_smell"/>
+	      <formatted-input labelCopy="Pulse Left" height="med" v-model="form.pulse_left"/>
+	      <formatted-input labelCopy="Pulse Right" height="med" v-model="form.pulse_right"/>
 
 				<div class="ui divider"></div>
 	      <formatted-input labelCopy="Summary of Signs and Symptoms" height="med" v-model="form.summary_of_signs_and_symptoms"/>
 	      <formatted-input labelCopy="Diagnosis" height="med" v-model="form.diagnosis"/>
 	      <formatted-input labelCopy="Syndrome Differentiation" height="med" v-model="form.syndrome_differentiation"/>
-	      <formatted-input labelCopy="Treatment Principles" height="med" v-model="form.treatment_principles"/>
 	      <formatted-input labelCopy="Treatment" height="med" v-model="form.treatment"/>
 
 	      <!-- Next Visit Section -->
+				<div class="ui divider"></div>	      
       	<div class="field margin-before-sm">
 	      	<label class="labelstyle"> Next Visit </label>
 	      	<div class="two fields">
@@ -83,19 +84,23 @@ export default {
 		return {
 			form: {
 				saveTime: "",
+
 				chief_complaint: "",
 				history_of_present_illness: "",
+
 				general_information: "",
 				lifestyle: "",
-				past_history_and_family_history: "",
-				inspection_of_general_Appearance: "",
+				past_history: "",
+				general_appearance: "",
+				
 				tongue: "",
-				listening_and_smelling: "",
-				pulse: "",
+				listening_and_smell: "",
+				pulse_left: "",
+				pulse_right: "",
+				
 				summary_of_signs_and_symptoms: "",
 				diagnosis: "",
 				syndrome_differentiation: "",
-				treatment_principles: "",
 				treatment: ""
 			},
 			nextvisit: {

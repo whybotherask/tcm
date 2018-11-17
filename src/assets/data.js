@@ -18,35 +18,47 @@ var patient = {
 			country:"England"
 		}
 	},
-
 	// next_appointment: $moment("2018-09-30 10:00"),
 	next_appointment: "",
 
 	visits: [
 		{	
-			id:"v0092",
+			entry_id:"v0092",
 			visit_number:2,
 			datetime: $moment("2018-08-25 13:00"),
-			pracitioner:"Royce Liu",
-			results_from_last_treatment:"Ferrars all spirits his imagine effects amongst neither. It bachelor cheerful of mistaken. Tore has sons put upon wife use bred seen.",
-			changes_in_symptom:"Insomia for 2 months",
-			// signs_and_symptoms:"Its dissimilar invitation ten has discretion unreserved. Had you him humoured jointure ask expenses learning.",
-			// diagnosis:"Insomia",
-			symptom_differentiation:"Liver Qi stagnation, disharmony between Spleen and Liver",
-			treatment_principle:"Soothe Liver Qi, Harmonize spleen and liver, calm mind",
-			treatment:"Acupuncture\n<ul> <li>An Mian: treats Insomnia </li> <li> HT7: calm mind, benefit HT</li> <li>SP6: Calm mind, harmonize LV, SP, KD</li> <li>Yin Tang: Calm mind</li> <li>LI4, LV3: Sooth LV qi, ensure free flow of Qi</li> <li>PC6: Sooth Jue Yin Qi,</li> <li>UB18: back shu of Liver: harmonize Liver</li> <li>UB15: back shu of HT: harmonize Heart, calm mind</li> <li>LV13: Front-Mu of Spleen, harmonize LV and Spleen</li></ul> Herbal Formula: Xiao Yao San <ul><li>Soothe Liver Qi, Harmonize Spleen and Liver</li></ul>",
+			is_first_visit: false,
+			pracitioner: "Royce Liu",
+			chief_complaint: "Insomia for 2 month",
+			symptoms_and_signs: "Its dissimilar invitation ten has discretion unreserved. Had you him humoured jointure ask expenses learning.",
+			pulse_and_tongue: "same",
+			diagnosis: "Insomia",
+			changes_in_symptom: "Ferrars all spirits his imagine effects amongst ",
+			symptom_differentiation: "Liver Qi stagnation, disharmony between Spleen and Liver",
+			treatment: "Acupuncture<ul> <li>An Mian: treats Insomnia </li> <li> HT7: calms mind, benefit HT</li> <li>SP6: calms mind, harmonize LV, SP, KD</li> <li>Yin Tang: calms mind</li> <li>LI4, LV3: soothes LV qi, ensure free flow of Qi</li> <li>PC6: soothes Jue Yin Qi</li> <li>UB18: back shu of Liver: harmonize Liver</li> <li>UB15: back shu of HT: harmonize Heart, calms mind</li> <li>LV13: Front-Mu of Spleen, harmonize LV and Spleen</li></ul> Herbal Formula<ul><li>Xiao Yao San: soothes Liver Qi, Harmonize Spleen and Liver</li></ul>",
+			patient_feedback: "feedback"
 		}, {	
-			id:"v0091",
+			entry_id:"v0091",
 			visit_number:1,
+			is_first_visit: true,
 			datetime: $moment("2018-07-22 11:20"),
-			pracitioner:"Royce Liu",
-			results_from_last_treatment:"On it differed repeated wandered required in. Then girl neat why yet knew rose spot. Moreover property we he kindness greatest be oh striking laughter. In me he at collecting affronting principles apartments. Has visitor law attacks pretend you calling own excited painted. Contented attending smallness it oh ye unwilling. Turned favour man two but lovers. Suffer should if waited common person little oh. Improved civility graceful sex few smallest screened settling. Likely active her warmly has.",
-			changes_in_symptom:"Resources exquisite set arranging moonlight sex him household had. Months had too ham cousin remove far spirit. She procuring the why performed continual improving. Civil songs so large shade in cause. Lady an mr here must neat sold. Children greatest ye extended delicate of. No elderly passage earnest as in removed winding or.",
-			// signs_and_symptoms:"Old there any widow law rooms. Agreed but expect repair she nay sir silent person. Direction can dependent one",
-			// diagnosis:"Night Sweat",
-			symptom_differentiation:"LV and KD yin deficiency, SP Qi deficiency",
-			treatment_principle:"Nourish LV and KD yin, Tonify SP Qi, stop sweating",
-			treatment:"Acupuncture <ul><li>HT6 + KD7: regulate sweating (night sweat especially)</li> <li>KD6: Nourish Yin</li> <li>SP6: Nourish Yin, tonify SP</li> <li>ST36: tonify SP Qi</li> <li>SP3: Tonify Qi</li> <li>Ren12: regulate middle jiao, tonify Qi</li> </ul> Herbal formula: Liu Wei Di Huang Wan + Si Jun Zi Tang",
+			
+			chief_complaint: "Night sweat for 1 year",
+			history_of_present_illness: "Onset: During sleep at night <br/> Symptoms: sweating",
+			
+			general_information: "Chills/fever: feels warm generally <br/> Sweating: sweats easily + night sweat <br/> Thirst: Drinks 1-2L, mouth dry inthe morning <br/> Stool: regular, smooth <br/> Shoulder: shoulder tenderness",
+			lifestyle: "lifestyle",
+			past_history: "past history",
+			general_appearance: "appearance",
+			
+			tongue: "Purple <br/>teeth mark, redder sides <br/> moist",
+			listening_and_smell: "listening",
+			pulse_left: "Wiry LV, sl rapid, slippery SP, weak and deep",
+			pulse_right: "same",
+			
+			summary_of_signs_and_symptoms: "Night Sweat, warm sensation, lower appetite, thirsty, bloating, lower back ache, weak legs, blurry vision, vivid dreams, shallow sleep, anxious",
+			diagnosis: "Night sweats",
+			syndrome_differentiation: "<ul> <li> LV and KD yin deficiency</li> <li> SP Qi deficiency </li> </ul>",
+			treatment: "Nourish LV and KD yin, Tonify SP Qi, stop sweating <br/> <br/> Acupuncture <br/><ul><li> HT6 + KD7: regulate sweating (night sweat especially)</li> <li>KD6: Nourish Yin</li> <li>SP6: Nourish Yin, tonify SP</li> <li>ST36: tonify SP Qi</li> <li>SP3: Tonify Qi</li> <li>Ren12: regulate middle jiao, tonify Qi</li></ul> Herbal formula <ul> <li> Liu Wei Di Huang Wan + Si Jun Zi Tang</li> </ul>",
 		}
 	] // end visits
 };
@@ -54,25 +66,25 @@ var patient = {
 
 var patients = [
 	{
-		id: "p3564669",
-		first_name: "Jessica T.",
-		last_name: "Noel",
-		sex: 'Female',
+		id: "p6595120",
+		first_name: "Andy",
+		last_name: "Lin",
+		sex: 'Male',
 		phone: "1234567890",
 		dob: $moment("1985-12-12"),
 		last_visit: $moment("2018-09-12 10:00"),
 		next_appointment: $moment().hour(9).minutes(10)
 	},{
-		id: "p3564670",
-		first_name: "Prvan",
-		last_name: "Barisic",
+		id: "5beb9425aff790d5f75d1d66",
+		first_name: "Zifu",
+		last_name: "Wang",
 		sex: 'M',
 		phone: "2088652448",
 		dob: $moment("1989-08-11"),
 		last_visit: $moment("2018-09-12 11:00"),
 		next_appointment: $moment().hour(10).minutes(12)
 	},{
-		id: "p3564671",
+		id: "5beb946faff790d60622587c",
 		first_name: "David",
 		last_name: "Murphy",
 		sex: 'M',
@@ -81,7 +93,7 @@ var patients = [
 		last_visit: $moment("2018-09-12 13:00"),
 		next_appointment: $moment().hour(11).minutes(40)
 	},{
-		id: "p3564672",
+		id: "5beb946faff790d60622587c",
 		first_name: "Li Qin",
 		last_name: "Lei",
 		sex: 'M',
@@ -99,7 +111,7 @@ var patients = [
 		last_visit: $moment("2018-08-25 13:00"),
 		next_appointment: $moment().hour(17).minutes(0)
 	},{
-		id: "p3564673",
+		id: "5beb946faff790d60622587c",
 		first_name: "Aurora",
 		last_name: "Tetlie",
 		phone: "6472068227",
@@ -108,7 +120,7 @@ var patients = [
 		last_visit: $moment("2018-05-13 10:30"),
 		next_appointment: $moment("2018-10-01 09:00")
 	},{
-		id: "p3564674",
+		id: "5beb946faff790d60622587c",
 		first_name: "Warren",
 		last_name: "Dahl",
 		sex: 'M',
@@ -361,5 +373,31 @@ export default {
 
 }
 
+
+/*
+# For patients
+    list_patients
+    create_patient
+    retrieve_patient/(?P<id>[0-9a-z]+)/$
+    update_patient/(?P<id>[0-9a-z]+)/$
+    delete_patient/(?P<id>[0-9a-z]+)/$
+    restore_patient/(?P<id>[0-9a-z]+)/$
+    destroy_patient/(?P<id>[0-9a-z]+)/$
+
+# For visit forms
+    list_visits/(?P<patient_id>[0-9a-z]+)/$
+    retrieve_visit/(?P<id>[0-9a-z]+)/$
+    delete_visit/(?P<id>[0-9a-z]+)/$
+    restore_visit/(?P<id>[0-9a-z]+)/$
+    destroy_visit/(?P<id>[0-9a-z]+)/$
+
+# For first visits
+    create_first_visit/(?P<patient_id>[0-9a-z]+)/$
+    update_first_visit/(?P<id>[0-9a-z]+)/$
+
+# For followup visits
+    create_followup_visit/(?P<patient_id>[0-9a-z]+)/$
+    update_followup_visit/(?P<id>[0-9a-z]+)/$
+ */
 
 

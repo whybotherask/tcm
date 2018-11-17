@@ -251,7 +251,9 @@ export default {
 	methods: {
 		saveForm(){
 
-			this.$store.dispatch( 'updateNewPatient', { id: this.id, personal_info: this.personal_info })
+			var pi = _.cloneDeep( this.personal_info )
+			pi.phone = pi.phone.replace( /[^0-9]+/g ,'') // strip out formatting
+			this.$store.dispatch( 'updateNewPatient', { id: this.id, personal_info: pi })
 
 			this.$router.push({ 
         name: 'New Patient Entry', 
@@ -286,10 +288,11 @@ export default {
 			});
 		},
 		_formatPhoneNumber( val ){
-			var nonNumberRegex = /[^0-9]+/g
-			var numbers = val.replace(nonNumberRegex, '').insert(6, '-').insert(3, ') ').insert(0, '(')
+			const nonNumberRegex = /[^0-9]+/g
+			return val.toString()
+							  .replace(nonNumberRegex, '')
+							  .insert(6, '-').insert(3, ') ').insert(0, '(')
 			// we insert from the back of string to avoid shifting indices
-			return numbers
 		},
 		consentOnClick( ){				
 			this.personal_info.consent = !this.personal_info.consent

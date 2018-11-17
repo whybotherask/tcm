@@ -102,8 +102,10 @@ export default {
 		},
 		formatPhone ( value ){
 			if (!value) return ''
-			value = value.toString();
-			return `${value.slice(0,3)}.${value.slice(3,6)}.${value.slice(6,10)}`
+			const nonNumberRegex = /[^0-9]+/g
+			return value.toString()
+									.replace(nonNumberRegex, '')
+									.insert(6, '-').insert(3, ') ').insert(0, '(')
 		},
 		formatAppointmentDateTime( value ){
 			if (!value) return ''

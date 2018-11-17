@@ -34,7 +34,7 @@
 	      <!-- Visits -->
 				<h3 class="margin-before-md">VISITS</h3>
 				<next-appointment 
-						v-show="patient.next_appointment !='' "  />
+						v-show="patient.next_appointment && patient.next_appointment !='' "  />
 				<visit-list/>
 				<followup-form 
 						v-if="formVisible" 
@@ -69,12 +69,12 @@ export default {
 		window.scrollTo( 0 , 0 )
 	},
 	components: {
-		"followup-form": FollowupForm,
-		"visit-list": VisitList,
-		"profile-header": Header,
-		"loader": Loader,
+		"followup-form"		: FollowupForm,
+		"visit-list"			: VisitList,
+		"profile-header"	: Header,
+		"loader" 					: Loader,
 		"next-appointment": Appointment,
-		"my-footer": Footer
+		"my-footer" 			: Footer
 	},
 	computed: {
 		patientLoadStatus() {

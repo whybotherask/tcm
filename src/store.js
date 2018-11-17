@@ -3,6 +3,7 @@
   Exports our data store.
 */
 const CafeAPI = "https://"
+const TCM_API = "https://tcm-pt.herokuapp.com"
 
 import Vue from 'vue'
 import Vuex from 'vuex'

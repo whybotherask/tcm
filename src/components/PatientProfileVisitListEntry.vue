@@ -4,8 +4,8 @@
 		<div class="ui section divider"></div>
 		<div class="ui content grid">
 			<div class="two wide column">
-				<h4 class="margin-sm">{{ visit.datetime | formatDate }}</h4>
-				<p class="margin-sm">{{ visit.datetime | formatDuration }}</p>
+				<h4 class="margin-sm">{{ visit.date_time | formatDate }}</h4>
+				<p class="margin-sm">{{ visit.date_time | formatDuration }}</p>
 				<p class="margin-sm">Visit #{{ visit.visit_number }}</p>
 			</div>
 			<div class="eight wide column">

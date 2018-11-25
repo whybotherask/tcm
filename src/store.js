@@ -20,13 +20,13 @@ function _mutatePatientData( raw ){
 
   const patientAttr = ["id", "last_visit", "next_appointment", "personal_info", "files"]
 
-  var clean = _.pick( raw, patientAttr )          // keep only the needed attributes
+  var clean = _.pick( raw, patientAttr ) // keep only the needed attributes
 
   var visits = _.chain( raw.visits_dereferenced )
-    .sortBy( (visit)=> moment(visit).toDate() ) // sort by Javascript date from recent to oldest
+    .sortBy( (visit)=> -1*moment(visit.date_time).toDate() ) // sort by Javascript date from recent to oldest
     .map( (visit, index)=>{
-      visit.visit_number = raw.visits_dereferenced.length - index           // add visit_number to each visit - need to reverse order, last item is actually vist #1
-      visit.date_time = moment(visit.date_time)   // convert each date_time into moment object
+      visit.visit_number = raw.visits_dereferenced.length - index // add visit_number to each visit - need to reverse order, last item is actually vist #1
+      visit.date_time = moment(visit.date_time) // convert each date_time into moment object
       return visit
     })
     .value()  // de-reference _.chain

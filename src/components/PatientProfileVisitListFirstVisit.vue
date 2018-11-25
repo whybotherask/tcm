@@ -46,8 +46,8 @@
 				<span class="label uppercase"> Diagnosis </span>
 				<div class="font-lg margin-bottom-sm" v-html="visit.diagnosis"/>
 
-				<span class="label uppercase"> Syndrome Differentiation </span>
-				<div class="font-lg margin-bottom-sm" v-html="visit.syndrome_differentiation"/>
+				<span class="label uppercase"> Symptom Differentiation </span>
+				<div class="font-lg margin-bottom-sm" v-html="visit.symptom_differentiation"/>
 
 				<span class="label uppercase"> Treatment </span>
 				<div class="font-lg margin-bottom-sm" v-html="visit.treatment"/>

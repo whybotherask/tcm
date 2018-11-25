@@ -14,7 +14,7 @@
 				<table class="ui very basic selectable table">
 				  <thead>
 				    <tr>
-				    	<th class="two wide">Date</th>
+				    	<th class="two wide">Time</th>
 				    	<th class="four wide">Patient</th>
 				    	<th class="three wide">Date of Birth</th>
 				    	<th class="two wide">Last Visit</th>
@@ -122,19 +122,19 @@ export default {
 	},
 	filters: {
 		formatBirthdate( value ){
-			if (!value) return ''
-			return value.format("MMM DD, YYYY")
+			if (!value) return '-'
+			return Moment(value).format("MMM DD, YYYY")
 		},
 		formatAppointmentToday( value ){
-			if (!value) return
+			if (!value) return '-'
 			return Moment(value).format('hh:mm A')
 		},
 		formatLastVisit( value ) {
-			if (!value) return
+			if (!value) return '-'
 			return Moment(value).fromNow()
 		},
 		formatNextVisit( value ) {
-			if (!value) return
+			if (!value) return '-'
 			var m = Moment(value)
 			m.locale('en')
 			return m.calendar()

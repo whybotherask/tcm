@@ -15,6 +15,29 @@ window.a = Data
 
 Vue.use(Vuex)
 
+
+function _mutatePatientData( raw ){
+
+  const patientAttr = ["id", "last_visit", "next_appointment", "personal_info", "files"]
+
+  var clean = _.pick( raw, patientAttr )          // keep only the needed attributes
+
+  var visits = _.chain( raw.visits_dereferenced )
+    .sortBy( (visit)=> moment(visit).toDate() ) // sort by Javascript date from recent to oldest
+    .map( (visit, index)=>{
+      visit.visit_number = raw.visits_dereferenced.length - index           // add visit_number to each visit - need to reverse order, last item is actually vist #1
+      visit.date_time = moment(visit.date_time)   // convert each date_time into moment object
+      return visit
+    })
+    .value()  // de-reference _.chain
+
+  clean.visits = visits 
+  console.log(clean)
+  return clean
+}
+
+
+
 export default new Vuex.Store({
   /*
     Defines the state being monitored for the module.
@@ -110,23 +133,57 @@ export default new Vuex.Store({
       }, 1300)
     },
 
+    // loadPatientList( { commit } ) {
+    //   commit( 'setPatientListLoadStatus', 0 )
+    //   setTimeout( function () {
+    //     var res = Data.getPatientList()
+    //     commit( 'setPatientList', res )
+    //     commit( 'setPatientListLoadStatus', 2 )
+    //   }, 100)
+    // }, // end loadPatientList()
+
     loadPatientList( { commit } ) {
       commit( 'setPatientListLoadStatus', 0 )
-      setTimeout( function () {
-        var res = Data.getPatientList()
-        commit( 'setPatientList', res )
-        commit( 'setPatientListLoadStatus', 2 )
-      }, 100)
+
+      $.getJSON( TCM_API + '/list_patients/' )
+        .done( function( response ){
+          response = _.map( response, (patient)=>{ 
+            patient.id = patient.pid
+            return patient
+          })
+          commit( 'setPatientList', response )
+          commit( 'setPatientListLoadStatus', 2 )
+        })
+        .fail( function(){
+          commit( 'setPatientList', null )
+          commit( 'setPatientListLoadStatus', 3 )
+        })
     }, // end loadPatientList()
+
+    // loadPatient( { commit }, data ) {
+    //   commit( 'setPatientLoadStatus', 0 )
+    //   setTimeout( function () {
+    //     var res = Data.getPatient( data.id )
+    //     commit( 'setPatient', res )
+    //     commit( 'setPatientLoadStatus', 2 )
+    //   }, 600)
+    // }, // end loadPatient()
 
     loadPatient( { commit }, data ) {
       commit( 'setPatientLoadStatus', 0 )
-      setTimeout( function () {
-        var res = Data.getPatient( data.id )
-        commit( 'setPatient', res )
-        commit( 'setPatientLoadStatus', 2 )
-      }, 600)
-    }, // end loadPatient()
+
+      $.getJSON( TCM_API + '/retrieve_patient/' + data.id + '/' )
+        .done( function( response ){
+          commit( 'setPatient', _mutatePatientData(response) )  // cleaned up patient profile
+          commit( 'setPatientLoadStatus', 2 )
+        })
+        .fail( function(){
+          // commit( 'setPatient', null )
+          console.log( 'retrieve_patient fail' )
+          commit( 'setPatientLoadStatus', 3 )
+        })
+    }, // end loadPatientList()
+
 
     loadSearchResults( { commit }, query ) {
       commit( 'setSearchResultsLoadStatus', 0 )

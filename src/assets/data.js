@@ -25,14 +25,13 @@ var patient = {
 		{	
 			entry_id:"v0092",
 			visit_number:2,
-			datetime: $moment("2018-08-25 13:00"),
+			date_time: $moment("2018-08-25 13:00"),
 			is_first_visit: false,
 			pracitioner: "Royce Liu",
 			chief_complaint: "Insomia for 2 month",
 			symptoms_and_signs: "Its dissimilar invitation ten has discretion unreserved. Had you him humoured jointure ask expenses learning.",
 			pulse_and_tongue: "same",
 			diagnosis: "Insomia",
-			changes_in_symptom: "Ferrars all spirits his imagine effects amongst ",
 			symptom_differentiation: "Liver Qi stagnation, disharmony between Spleen and Liver",
 			treatment: "Acupuncture<ul> <li>An Mian: treats Insomnia </li> <li> HT7: calms mind, benefit HT</li> <li>SP6: calms mind, harmonize LV, SP, KD</li> <li>Yin Tang: calms mind</li> <li>LI4, LV3: soothes LV qi, ensure free flow of Qi</li> <li>PC6: soothes Jue Yin Qi</li> <li>UB18: back shu of Liver: harmonize Liver</li> <li>UB15: back shu of HT: harmonize Heart, calms mind</li> <li>LV13: Front-Mu of Spleen, harmonize LV and Spleen</li></ul> Herbal Formula<ul><li>Xiao Yao San: soothes Liver Qi, Harmonize Spleen and Liver</li></ul>",
 			patient_feedback: "feedback"
@@ -40,7 +39,7 @@ var patient = {
 			entry_id:"v0091",
 			visit_number:1,
 			is_first_visit: true,
-			datetime: $moment("2018-07-22 11:20"),
+			date_time: $moment("2018-07-22 11:20"),
 			
 			chief_complaint: "Night sweat for 1 year",
 			history_of_present_illness: "Onset: During sleep at night <br/> Symptoms: sweating",
@@ -57,7 +56,7 @@ var patient = {
 			
 			summary_of_signs_and_symptoms: "Night Sweat, warm sensation, lower appetite, thirsty, bloating, lower back ache, weak legs, blurry vision, vivid dreams, shallow sleep, anxious",
 			diagnosis: "Night sweats",
-			syndrome_differentiation: "<ul> <li> LV and KD yin deficiency</li> <li> SP Qi deficiency </li> </ul>",
+			symptom_differentiation: "<ul> <li> LV and KD yin deficiency</li> <li> SP Qi deficiency </li> </ul>",
 			treatment: "Nourish LV and KD yin, Tonify SP Qi, stop sweating <br/> <br/> Acupuncture <br/><ul><li> HT6 + KD7: regulate sweating (night sweat especially)</li> <li>KD6: Nourish Yin</li> <li>SP6: Nourish Yin, tonify SP</li> <li>ST36: tonify SP Qi</li> <li>SP3: Tonify Qi</li> <li>Ren12: regulate middle jiao, tonify Qi</li></ul> Herbal formula <ul> <li> Liu Wei Di Huang Wan + Si Jun Zi Tang</li> </ul>",
 		}
 	] // end visits

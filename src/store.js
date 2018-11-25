@@ -12,6 +12,7 @@ import _ from 'lodash'
 import moment from 'moment'
 
 window.a = Data
+window.m = moment
 
 Vue.use(Vuex)
 

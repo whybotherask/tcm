@@ -148,10 +148,6 @@ export default new Vuex.Store({
 
       $.getJSON( TCM_API + '/list_patients/' )
         .done( function( response ){
-          response = _.map( response, (patient)=>{ 
-            patient.id = patient.pid
-            return patient
-          })
           commit( 'setPatientList', response )
           commit( 'setPatientListLoadStatus', 2 )
         })

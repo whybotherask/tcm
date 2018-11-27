@@ -100,14 +100,14 @@ export default {
 		patientsToday() {
 			var list = this.patientList
 			return list
-							.filter( (patient)=> patient.next_appointment && Moment(patient.next_appointment).isSame( Moment(), 'day') )
-							.sort( (a,b)=> Moment(a.next_appointment).isAfter( Moment(b.next_appointment) ) )
+				.filter( (patient)=> patient.next_appointment && Moment(patient.next_appointment).isSame( Moment(), 'day') )
+				.sort( (a,b)=> Moment(a.next_appointment).isAfter( Moment(b.next_appointment) ) )
 		},
 		recentPatients() {
 			var list = this.patientList
 			return list
-							.filter( (patient)=> !patient.next_appointment || !Moment(patient.next_appointment).isSame( Moment(), 'day') )
-							.sort( (a,b)=> Moment(a.next_appointment).isAfter( Moment(b.next_appointment) ) ) 
+				.filter( (patient)=> !patient.next_appointment || !Moment(patient.next_appointment).isSame( Moment(), 'day') )
+				.sort( (a,b)=> Moment(a.next_appointment).isAfter( Moment(b.next_appointment) ) ) 
 		}
 	},
 	methods: {

@@ -85,7 +85,7 @@ export default {
 		return {
 			collapsed: "expanded",
 			form: {
-				// saveTime: "",
+				date_time: "",
 				chief_complaint: "",
 				symptom_and_signs: "",
 				pulse_and_tongue: "",
@@ -118,7 +118,7 @@ export default {
 	},
 	methods: {
 		saveForm() {
-			// this.form.saveTime = moment.now().toString()
+			this.form.date_time = moment.now().toString()
 			this.$store.dispatch('createFollowup', this.getParsedForm() )
 			// also creates an appointment
 			this.$emit('submit')

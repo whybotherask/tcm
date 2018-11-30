@@ -11,7 +11,7 @@
       				class="ui compact icon button right floated">
       	<i class="plus icon"></i>
       </button>
-      <div class="header">{{ patientName }}</div>
+      <div class="header">{{ patientInfo.name }}</div>
       <div class="meta"> Today {{ form.saveTime | formatTime }}</div>
 			<div v-show="collapsed==='expanded'" class="ui divider long"></div>
 	  
@@ -20,7 +20,7 @@
 	    		 class="ui description scrollable form">
 	      <formatted-input labelCopy="Chief Complaint" v-model="form.chief_complaint"/>
 				<!-- <div class="ui divider"></div> -->
-	      <formatted-input labelCopy="Symptom and Signs" v-model="form.symptoms_and_signs"/>
+	      <formatted-input labelCopy="Symptom and Signs" v-model="form.symptom_and_signs"/>
 				<!-- <div class="ui divider"></div> -->
 	      <formatted-input labelCopy="Pulse and Tongue" v-model="form.pulse_and_tongue"/>
 				<!-- <div class="ui divider"></div> -->
@@ -70,7 +70,7 @@ import moment 				from 'moment'
 import flatPickr 			from 'vue-flatpickr-component'
 
 export default {
-	props: ['patientName'],
+	props: ['patientInfo'],
 	components: {
 		'formatted-input': FormattedInput,
 		'flat-pickr': flatPickr
@@ -85,9 +85,9 @@ export default {
 		return {
 			collapsed: "expanded",
 			form: {
-				saveTime: "",
+				// saveTime: "",
 				chief_complaint: "",
-				symptoms_and_signs: "",
+				symptom_and_signs: "",
 				pulse_and_tongue: "",
 				diagnosis: "",
 				symptom_differentiation: "",
@@ -118,13 +118,14 @@ export default {
 	},
 	methods: {
 		saveForm() {
-			this.form.saveTime = moment.now().toString()
+			// this.form.saveTime = moment.now().toString()
 			this.$store.dispatch('createFollowup', this.getParsedForm() )
 			// also creates an appointment
 			this.$emit('submit')
 		},
 		getParsedForm() {
 			return {
+				patient_id: this.patientInfo.id,
 				visit: JSON.parse( JSON.stringify(this.form) ),
 				next_appointment: moment( this.nextvisit.date + ' ' + this.nextvisit.time ).toString()
 			}

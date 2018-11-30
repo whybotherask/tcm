@@ -16,6 +16,23 @@ window.m = moment
 
 Vue.use(Vuex)
 
+$.each( [ "put", "delete", "patch" ], function( i, method ) {
+  $[ method ] = function( url, data, callback, type ) {
+    if ( $.isFunction( data ) ) {
+      type = type || callback;
+      callback = data;
+      data = undefined;
+    }
+
+    return $.ajax({
+      url: url,
+      type: method,
+      dataType: type,
+      data: data,
+      success: callback
+    });
+  };
+});
 
 function _mutatePatientData( raw ){
 
@@ -33,7 +50,7 @@ function _mutatePatientData( raw ){
     .value()  // de-reference _.chain
 
   clean.visits = visits 
-  console.log(clean)
+
   return clean
 }
 
@@ -69,8 +86,17 @@ export default new Vuex.Store({
   actions: {
 
     createFollowup( { commit }, data ) {
-      commit( 'addVisit', data.visit )
-      commit( 'setNextAppointment', data.next_appointment )
+      window.entry = data
+      // return 
+      $.post( TCM_API + '/create_followup_visit/' + data.patient_id + '/', data.visit )
+        .done( (res)=>{ 
+          data.visit.id = res['Success'].match(/: (.*)/)[1]   // match[1] returns the captured group, not the matched words
+          commit( 'addVisit', data.visit )
+          commit( 'setNextAppointment', data.next_appointment )
+        })
+        .fail( (data)=> {
+          console.log('\/create_followup_visit failed:', data)
+        });
     },
 
     saveNewPatient( { commit, state }, param ) {
@@ -134,15 +160,6 @@ export default new Vuex.Store({
       }, 1300)
     },
 
-    // loadPatientList( { commit } ) {
-    //   commit( 'setPatientListLoadStatus', 0 )
-    //   setTimeout( function () {
-    //     var res = Data.getPatientList()
-    //     commit( 'setPatientList', res )
-    //     commit( 'setPatientListLoadStatus', 2 )
-    //   }, 100)
-    // }, // end loadPatientList()
-
     loadPatientList( { commit } ) {
       commit( 'setPatientListLoadStatus', 0 )
 
@@ -156,15 +173,6 @@ export default new Vuex.Store({
           commit( 'setPatientListLoadStatus', 3 )
         })
     }, // end loadPatientList()
-
-    // loadPatient( { commit }, data ) {
-    //   commit( 'setPatientLoadStatus', 0 )
-    //   setTimeout( function () {
-    //     var res = Data.getPatient( data.id )
-    //     commit( 'setPatient', res )
-    //     commit( 'setPatientLoadStatus', 2 )
-    //   }, 600)
-    // }, // end loadPatient()
 
     loadPatient( { commit }, data ) {
       commit( 'setPatientLoadStatus', 0 )
@@ -180,7 +188,6 @@ export default new Vuex.Store({
           commit( 'setPatientLoadStatus', 3 )
         })
     }, // end loadPatientList()
-
 
     loadSearchResults( { commit }, query ) {
       commit( 'setSearchResultsLoadStatus', 0 )

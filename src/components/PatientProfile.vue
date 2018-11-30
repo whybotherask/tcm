@@ -38,7 +38,7 @@
 				<visit-list/>
 				<followup-form 
 						v-if="formVisible" 
-						:patientName="patientName"
+						:patientInfo="patientInfo"
 						@submit="hideForm" 
 						@hide="hideForm" 	/>
 			</div>
@@ -91,8 +91,11 @@ export default {
 				next_appointment: ""
 			}
 		},
-		patientName() {
-			return `${this.patient.personal_info.first_name} ${this.patient.personal_info.last_name}`
+		patientInfo() {
+			return {
+				name: `${this.patient.personal_info.first_name} ${this.patient.personal_info.last_name}`,
+				id: this.patient.id
+			}
 		}
 	},
 	filters: {

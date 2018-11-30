@@ -118,7 +118,7 @@ export default {
 	},
 	methods: {
 		saveForm() {
-			this.form.date_time = moment.now().toString()
+			this.form.date_time = moment.now()
 			this.$store.dispatch('createFollowup', this.getParsedForm() )
 			// also creates an appointment
 			this.$emit('submit')
@@ -126,7 +126,7 @@ export default {
 		getParsedForm() {
 			return {
 				patient_id: this.patientInfo.id,
-				visit: JSON.parse( JSON.stringify(this.form) ),
+				visit: _.cloneDeep(this.form),
 				next_appointment: moment( this.nextvisit.date + ' ' + this.nextvisit.time ).toString()
 			}
 		},

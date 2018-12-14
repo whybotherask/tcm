@@ -87,16 +87,19 @@ export default new Vuex.Store({
 
     createFollowup( { commit }, data ) {
       window.entry = data
-      // return 
+      
+      // update followup info 
       $.post( TCM_API + '/create_followup_visit/' + data.patient_id + '/', data.visit )
         .done( (res)=>{ 
-          data.visit.id = res['Success'].match(/: (.*)/)[1]   // match[1] returns the captured group, not the matched words
+          data.visit.id = res   // response is the id for the visit entry
           commit( 'addVisit', data.visit )
-          commit( 'setNextAppointment', data.next_appointment )
         })
-        .fail( (data)=> {
-          console.log('\/create_followup_visit failed:', data)
-        });
+        .fail( (data)=>console.log('/create_followup_visit failed:', data) )
+
+      // update next_appointment time
+      $.put( TCM_API + '/update_patient/' + data.patient_id, { 'next_appointment': data.next_appointment } )
+        .done( (res) => commit( 'setNextAppointment', data.next_appointment ) )
+        .fail( (data)=> console.log('/create_followup_visit failed:', data))
     },
 
     saveNewPatient( { commit, state }, param ) {
@@ -127,33 +130,19 @@ export default new Vuex.Store({
       commit( 'setCafesLoadStatus', 1 )
 
       CafeAPI.getCafes()
-        .then( function( response ){
-          commit( 'setCafes', response.data )
+        .then( ( res )=>{
+          commit( 'setCafes', res.data )
           commit( 'setCafesLoadStatus', 2 )
         })
-        .catch( function(){
+        .catch( ()=>{
           commit( 'setCafes', [] )
           commit( 'setCafesLoadStatus', 3 )
         })
     },  // end loadCafes()
 
-    loadCafe( { commit }, data ){
-      commit( 'setCafeLoadStatus', 1 )
-
-      CafeAPI.getCafe( data.id )
-        .then( function( response ){
-          commit( 'setCafe', response.data )
-          commit( 'setCafeLoadStatus', 2 )
-        })
-        .catch( function(){
-          commit( 'setCafe', {} )
-          commit( 'setCafeLoadStatus', 3 )
-        })
-    },   // end loadCafe()
-
     loadNewPatientList({ commit }) {
       commit( 'setNewPatientListLoadStatus', 0 )
-      setTimeout( function () {
+      setTimeout( ()=>{
         var res = Data.getNewPatientList()
         commit( 'setNewPatientList', res )
         commit( 'setNewPatientListLoadStatus', 2 )
@@ -162,13 +151,12 @@ export default new Vuex.Store({
 
     loadPatientList( { commit } ) {
       commit( 'setPatientListLoadStatus', 0 )
-
       $.getJSON( TCM_API + '/list_patients/' )
-        .done( function( response ){
-          commit( 'setPatientList', response )
+        .done( ( res )=>{
+          commit( 'setPatientList', res )
           commit( 'setPatientListLoadStatus', 2 )
         })
-        .fail( function(){
+        .fail( () => { 
           commit( 'setPatientList', null )
           commit( 'setPatientListLoadStatus', 3 )
         })
@@ -178,13 +166,13 @@ export default new Vuex.Store({
       commit( 'setPatientLoadStatus', 0 )
 
       $.getJSON( TCM_API + '/retrieve_patient/' + data.id + '/' )
-        .done( function( response ){
-          commit( 'setPatient', _mutatePatientData(response) )  // cleaned up patient profile
+        .done( ( res )=>{
+          commit( 'setPatient', _mutatePatientData(res) )  // cleaned up patient profile
           commit( 'setPatientLoadStatus', 2 )
         })
-        .fail( function(){
+        .fail( ()=>{
           // commit( 'setPatient', null )
-          console.log( 'retrieve_patient fail' )
+          console.log( '/retrieve_patient fail' )
           commit( 'setPatientLoadStatus', 3 )
         })
     }, // end loadPatientList()

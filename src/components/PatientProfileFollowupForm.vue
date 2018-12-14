@@ -1,6 +1,14 @@
 
-<template>
-	<div class="ui wide bottom card" :class="{'slideDown': (collapsed != 'expanded')}">	
+<template>	
+<!-- 	<vue-drag-resize class="ui wide bottom card" :class="{'slideDown': (collapsed != 'expanded')}" 	
+		:parentLimitation="false"
+		:x="800" :y="80"
+		:w="600" :h="600"  
+		:minw="400" :minh="400" 
+		:sticks="['tl','tm','ml']" 
+		:isDraggable="false" 
+		> -->
+	<div id="formContainer" class="ui wide bottom card resize-x" :class="{'slideDown': (collapsed != 'expanded')}">
 		<div class="content" @click="expandForm">
 	    <button v-show="collapsed==='expanded'"
 	    				class="ui compact icon button right floated"
@@ -60,20 +68,22 @@
       <div class="ui primary large button right floated" @click="saveForm">Save Entry</div>
       <div class="ui basic link large button right floated" @click="discardForm">Discard</div>
     </div>
-
 	</div>
+	<!-- </vue-drag-resize> -->
 </template>
 
 <script> 
 import FormattedInput from './BaseFormattedInput'
 import moment 				from 'moment'
-import flatPickr 			from 'vue-flatpickr-component'
+import FlatPickr 			from 'vue-flatpickr-component'
+import VueDragResize 	from 'vue-drag-resize'
 
 export default {
 	props: ['patientInfo'],
 	components: {
-		'formatted-input': FormattedInput,
-		'flat-pickr': flatPickr
+		'formatted-input'	: FormattedInput,
+		'flat-pickr'			: FlatPickr,
+		'vue-drag-resize'	: VueDragResize,
 	},
 	filters:{
 		formatTime( value ) {
@@ -81,6 +91,15 @@ export default {
 			return ` • Last saved ${moment(value).format("hh:MM A")}`
 		}
 	},
+
+	mounted() {
+		$('#formContainer').resizable({
+			handles: "w",
+			minWidth: 400,
+			maxWidth: $(window).width() - 100,
+		})
+	},
+
 	data() {
 		return {
 			collapsed: "expanded",
@@ -116,6 +135,7 @@ export default {
 			}
 		}
 	},
+
 	methods: {
 		saveForm() {
 			this.form.date_time = moment.now()
@@ -170,6 +190,7 @@ export default {
 	width: 40vw;
 	height: 80vh;
 	max-height: 80vh;
+	min-width: 400px;
 	padding: 1rem 0.5rem 0rem 0.5rem;
 	box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3);
 	border: 1px solid #fff !important;

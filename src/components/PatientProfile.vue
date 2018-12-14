@@ -74,7 +74,7 @@ export default {
 		"profile-header"	: Header,
 		"loader" 					: Loader,
 		"next-appointment": Appointment,
-		"my-footer" 			: Footer
+		"my-footer" 			: Footer,
 	},
 	computed: {
 		patientLoadStatus() {

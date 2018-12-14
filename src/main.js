@@ -3,7 +3,6 @@
   Adds the promise polyfill for IE 11
 */
 require('es6-promise').polyfill();
-require('moment');
 require('flatpickr/dist/flatpickr.css')
 require('flatpickr/dist/themes/material_blue.css')
 
@@ -31,3 +30,8 @@ new Vue({
   "store": Store,
   "router": Router,
 }).$mount('#app')
+
+
+
+
+
